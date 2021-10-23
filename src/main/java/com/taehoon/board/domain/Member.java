@@ -3,6 +3,7 @@ package com.taehoon.board.domain;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,10 +22,12 @@ public class Member {
 
     private String email;
     private String phoneNum;
+
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Temporal(TemporalType.DATE)
-    private Date birth; //생년월일
+//    @Temporal(TemporalType.DATE) => 로컬데이트타임을 사용하면 필요 없음.
+    private LocalDateTime birth; //생년월일
 
 
     @OneToMany(mappedBy = "member")

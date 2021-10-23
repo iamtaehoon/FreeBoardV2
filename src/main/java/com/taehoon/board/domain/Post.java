@@ -3,6 +3,7 @@ package com.taehoon.board.domain;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +22,7 @@ public class Post {//게시물
 
     private Integer lookUp; //조회수 long으로 해줘야하나?
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date registrationDate;
+    private LocalDateTime registrationDate;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
