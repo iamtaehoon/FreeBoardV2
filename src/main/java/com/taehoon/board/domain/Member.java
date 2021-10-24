@@ -12,6 +12,18 @@ import java.util.List;
 @Getter
 public class Member {
 
+    protected Member() {
+    }
+
+    public Member(String userId, String password, String email, String phoneNum, Gender gender, LocalDateTime birth) {
+        this.userId = userId;
+        this.password = password;
+        this.email = email;
+        this.phoneNum = phoneNum;
+        this.gender = gender;
+        this.birth = birth;
+    }
+
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
@@ -35,5 +47,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
+
 
 }
