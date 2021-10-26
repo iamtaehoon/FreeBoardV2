@@ -41,9 +41,7 @@ public class PostRepository {
         //안되는 이유는 아마 바꾼 값은 영속성 컨텍스트에서 관리하는 애가 아니기 떄문인듯.
         Post post = em.find(Post.class, postId);
 
-        Post post1 = post.modifyPost(title, content);
-
-        return post1;
+        return post.modifyPost(title, content);
     }
 
     public void deleteOne(Post post) { // void가 맞나? Long타입이라도 반환해 줘야 하려나. 만약 삭제하다 오류가 생겼으면 어떻게 처리해야하지

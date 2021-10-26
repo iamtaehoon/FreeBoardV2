@@ -34,7 +34,7 @@ class PostServiceTest {
         Long memberId1 = memberService.joinMember(member1);
         Member findMember = memberService.findMemberById(memberId1);
 
-        Post post1 = new Post("제목1", "내욘내용내용ㅇㅇㅇㅇㅇ1", findMember);
+        Post post1 = new Post("제목1", "내욘내용내용ㅇㅇㅇㅇㅇ1", findMember); //컨트롤러에서 객체를 호출해서 가져옴.
 
         //when
         Long postId1 = postService.registerPost(post1);
@@ -88,5 +88,23 @@ class PostServiceTest {
     @Test
     public void 글_조회() throws Exception {
         //글 등록이랑 로직이 똑같음.
+    }
+
+    @Test
+    public void 글_전체_조회() {
+        Member member1 = new Member("user1", "password*123", "a123wl@naver.com", "010-0000-0000", Gender.MAN, LocalDateTime.now());
+        Long memberId1 = memberService.joinMember(member1);
+        Member findMember = memberService.findMemberById(memberId1);
+
+        Post post1 = new Post("제목1", "내욘내용내용ㅇㅇㅇㅇㅇ1", findMember);
+        postService.registerPost(post1);
+        Post post2 = new Post("제목1", "내욘내용내용ㅇㅇㅇㅇㅇ1", findMember);
+        postService.registerPost(post2);
+        Post post3 = new Post("제목1", "내욘내용내용ㅇㅇㅇㅇㅇ1", findMember);
+        postService.registerPost(post3);
+
+        List<Post> allPosts = postService.findAllPosts();
+
+        assertThat(allPosts.size()).isEqualTo(3);
     }
 }

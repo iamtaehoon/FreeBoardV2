@@ -45,5 +45,10 @@ public class PostService {
         return postRepository.updateOne(title, content, postId);
     }
 
+    //전체 조회
+    public List<Post> findAllPosts() {
+        return postRepository.findAll();
+    }
+
     //페이지 보기. 페이징 이건 컨트롤러 만들고 만들자.
 }

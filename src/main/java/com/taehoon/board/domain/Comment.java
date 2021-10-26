@@ -1,17 +1,20 @@
 package com.taehoon.board.domain;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
+@Getter
 public class Comment {
 
     @Id @GeneratedValue
     @Column(name = "comment_id")
     private Long id;
 
-    private String comment;
+    private String content;
 
     private LocalDateTime registrationDate;
 
@@ -29,5 +32,19 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    public Comment modifyContent(String content) {
+        this.content = content;
+        return this;
+    }
+
+    public Comment(String content, int commentGroup, int commentClass, int commentOrder, Member member, Post post) {
+        this.content = content;
+        this.commentGroup = commentGroup;
+        this.commentClass = commentClass;
+        this.commentOrder = commentOrder;
+        this.member = member;
+        this.post = post;
+    }
 
 }
