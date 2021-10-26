@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -15,15 +16,15 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest // 이거 없이 순수 자바 코드로 어떻게 테스트를하지?
 @Transactional
-        // 이거 없이 순수 자바 코드로 어떻게 테스트를하지?
 class CommentServiceTest {
     @Autowired CommentService commentService;
     @Autowired PostService postService;
     @Autowired MemberService memberService;
 
     @Test
+    @Rollback
     public void 댓글_등록() throws Exception {
         //given
         Member member1 = new Member("user1", "password*123", "a123wl@naver.com", "010-0000-0000", Gender.MAN, LocalDateTime.now());
@@ -47,6 +48,7 @@ class CommentServiceTest {
     }
 
     @Test
+    @Rollback(value = false)
     public void 댓글_수정() throws Exception {
         //given
         Member member1 = new Member("user1", "password*123", "a123wl@naver.com", "010-0000-0000", Gender.MAN, LocalDateTime.now());
@@ -60,13 +62,25 @@ class CommentServiceTest {
         Comment comment1 = new Comment("댓글입니다 1", 0, 0, 0, findMember1, findPost1);
         Long commentId1 = commentService.registerComment(comment1);
 
-        Comment comment = commentService.findComment(commentId1);
-
+        //방법 1 : service의 updateComment를 호출해서 사용.
         //when
-        comment.modifyContent("수정된 내용입니다.");
-
+        Comment commentUsingService = commentService.findComment(commentId1);
+        Comment newComment = commentService.updateComment("수정된 내용입니다.", commentId1);
         //then
-        assertThat(comment.getContent()).isEqualTo("수정된 내용입니다.");
+        assertThat(newComment.getContent()).isEqualTo("수정된 내용입니다.");
+
+
+        // 방법 2: 나는 이게 맞는거같은데 // 도메인 모델에 있는 modifyContent로 바꿔도 영속성 컨텍스트가 사용되는거같음. findComment하면 어차피 영속성에서 관리한다 아님?
+//        //when
+//        Comment commentUsingDomainMethod = commentService.findComment(commentId1);
+//        commentUsingDomainMethod.modifyContent("수정된 내용입니다.");
+//
+//        //then
+//        Comment newComment = commentService.findComment(commentId1);
+//        assertThat(newComment.getContent()).isEqualTo("수정된 내용입니다.");
+
+
+
     }
 
     @Test
