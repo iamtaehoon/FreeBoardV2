@@ -1,6 +1,7 @@
 package com.taehoon.board.domain;
 
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,6 +40,7 @@ public class Member {
     private Gender gender;
 
 //    @Temporal(TemporalType.DATE) => 로컬데이트타임을 사용하면 필요 없음.
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime birth; //생년월일
 
 

@@ -3,6 +3,7 @@ package com.taehoon.board.web.dto.member;
 import com.taehoon.board.domain.Gender;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,8 +19,8 @@ public class MemberCreateDto {
     private String email;
     private String phoneNum;
 
-    private Gender gender;
+    private String gender;
 
-    private LocalDateTime birth; //생년월일
+    private String birth; //생년월일
 
 }

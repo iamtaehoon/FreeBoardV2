@@ -1,0 +1,22 @@
+.member-join-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 500px;
+    margin-left: -200px;
+    margin-top: -250px;
+
+    text-align: center;
+    background: #6c757d;
+
+}
+
+.member-join-form > form {
+    text-align: center;
+
+}
+
+.member-join-form > form > div {
+    margin-top: 10px;
+}
