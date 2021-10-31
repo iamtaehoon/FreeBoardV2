@@ -28,10 +28,6 @@
     <form th:action th:object="${member}" method="post">
 
         <div>
-            <button th:onclick="|location.href='@{/check-id-duplicate?userId=taehoon}'|">버튼</button>
-            <div th:if="${#fields.hasGlobalErrors()}">
-                <p class="field-error" th:each= "err : ${#fields.globalErrors()}" th:text="err">전체 오류 메세지</p>
-            </div>
             <label for="inputUserId1" class ="col-form-label">ID</label>
             <input type="text" id="inputUserId1" class="form-control" th:field= "*{userId}">
             <div class="field-error" th:errors="*{userId}">아이디 오류</div>

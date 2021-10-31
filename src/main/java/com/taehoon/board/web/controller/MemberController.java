@@ -35,17 +35,17 @@ public class MemberController {
         return "redirect:/join";
     }
 
-    @GetMapping("check-id-duplicate")
-    public String check_id_duplicate(@RequestParam String userId, BindingResult bindingResult) {
-
-        List<Member> memberByUserId = memberService.findMemberByUserId(userId);
-        if (memberByUserId.isEmpty()) {
-            //올바른로직
-            return "redirect:/join";
-        }
-        //틀린 로직
-        bindingResult.reject("","아이디가 중복되었습니다.");
-        return "redirect/join";
-
-    }
+//    @GetMapping("check-id-duplicate")
+//    public String check_id_duplicate(@RequestParam String userId, BindingResult bindingResult) {
+//
+//        List<Member> memberByUserId = memberService.findMemberByUserId(userId);
+//        if (memberByUserId.isEmpty()) {
+//            //올바른로직
+//            return "redirect:/join";
+//        }
+//        //틀린 로직
+//        bindingResult.reject("","아이디가 중복되었습니다.");
+//        return "redirect/join";
+//
+//    }
 }
