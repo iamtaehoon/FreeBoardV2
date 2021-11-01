@@ -9,6 +9,8 @@
     color: black;
 }
 
+
+/* 메인 화면 */
 .header {
     background: brown;
     width: 100%;
@@ -48,4 +50,210 @@
 
 .paging > div {
     flex: 1;
+}
+
+/* 로그인 폼 */
+
+.login-box-outer {
+
+    text-align: center;
+    height: 720px;
+    vertical-align: middle;
+    display: flex;
+}
+
+.login-box {
+    border: 1px solid black;
+    display: inline-block;
+    width: 420px;
+    height: 200px;
+    margin: auto;
+
+}
+
+.login-box-top {
+    margin: 30px 20px 30px 20px;
+    display: flex;
+    height: 100px;
+}
+
+.login-box-top > div {
+    flex: 3;
+    margin: auto;
+}
+.login-box-top > button {
+    flex : 1;
+}
+
+.login-box-top > div > div > input{
+    width: 200px;
+    height: 30px;
+}
+
+.login-box-bottom {
+    margin-top: 15px;
+    display: flex;
+}
+
+.login-box-bottom > * {
+    flex: 1;
+}
+
+/* 글쓰기 */
+
+.post-register-box-outer {
+
+    text-align: center;
+    height: 720px;
+    vertical-align: middle;
+    display: flex;
+}
+
+.post-register-box {
+
+    display: inline-block;
+    width: 700px;
+    height: 600px;
+    margin: auto;
+}
+
+.post-title {
+
+    height: 60px;
+}
+
+.post-title > input {
+    width: 680px;
+    height: 60px;
+}
+
+.post-attachment {
+
+    height: 40px;
+    text-align: left;
+}
+
+.post-attachment > input {
+    margin-top: 10px;
+}
+
+.post-content {
+    height: 400px;
+}
+
+.post-content > input {
+    width: 680px;
+    height: 400px;
+}
+
+.post-button-bar {
+
+    height: 60px;
+    margin-top: 40px;
+}
+
+.post-button-bar > button {
+    width: 100px;
+    height: 40px;
+    margin: auto 20px auto 20px;
+}
+
+/* 위에 같은거 있느데요? ㅇㅇㅇ 근데,
+ 이거 읽기 부분이라 아예 클래스명 바꿔줄예정 */
+/* 작성글 읽기 */
+
+ .post-read-box-outer {
+
+    text-align: center;
+    height: 720px;
+    vertical-align: middle;
+    display: flex;
+}
+
+.post-read-box {
+
+    display: inline-block;
+    width: 700px;
+    height: 600px;
+    margin: auto;
+}
+
+.read-post-title {
+    text-align: left;
+    height: 60px;
+}
+
+.read-post-attachment {
+    height: 40px;
+    text-align: left;
+}
+
+.read-post-attachment {
+    margin-top: 10px;
+}
+
+.read-post-content {
+    background: darkgreen;
+    height: 400px;
+}
+
+.read-post-content {
+    height: 400px;
+    text-align: left;
+}
+
+.read-post-button-bar {
+
+    height: 60px;
+    margin-top: 40px;
+}
+
+.read-post-button-bar > button {
+    width: 100px;
+    height: 40px;
+    margin: auto 20px auto 20px;
+}
+
+
+.content {
+    display: flex;
+    height: 100px;
+    border: 1px solid black;
+}
+
+.content > .content-writer {
+    flex: 1;
+    
+}
+.content > .content-info {
+    background: lightblue;
+    flex: 8;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+.content > .content-write-date {
+    flex: 2;
+}
+
+.reply {
+    display: flex;
+    height: 100px;
+    border: 1px solid black;
+}
+
+.reply > .reply-blank {
+    flex: 1;
+}
+.reply > .reply-writer {
+    flex: 1;
+    
+}
+.reply > .reply-info {
+    background: lightblue;
+    flex: 7;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+.reply > .reply-write-date {
+    flex: 2;
 }
