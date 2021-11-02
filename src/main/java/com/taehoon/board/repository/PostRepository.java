@@ -50,6 +50,12 @@ public class PostRepository {
 
     //페이징해서 보여주는건 어떻게 하지?
     //컨트롤러 만들고 만들자.
+    public List<Post> findPostsUsingPaging(Integer pageNum) {
+        return em.createQuery("select p from Post p",Post.class) //정렬조건이 필요한가?
+                .setFirstResult((pageNum-1) * 14)
+                .setMaxResults(14)
+                .getResultList();
+    }
 
 
 }

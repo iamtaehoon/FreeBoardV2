@@ -51,4 +51,11 @@ public class PostService {
     }
 
     //페이지 보기. 페이징 이건 컨트롤러 만들고 만들자.
+    public List<Post> findPostsUsingPaging(Integer pageNum) {
+        if (pageNum < 0) {
+            //오류 발생
+            throw new IllegalArgumentException("다음과 같은 페이지는 존재하지 않습니다.");
+        }
+        return postRepository.findPostsUsingPaging(pageNum);
+    }
 }

@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <!--  바닐라   -->
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../static/css/member.css" rel="stylesheet" />
+    <link href="../../static/css/style.css" rel="stylesheet">
+
+    <!-- 인텔리제이 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/member.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+    <title>Title</title>
+</head>
+<body>
+<div class="header"></div>
+<div class="main-page">
+    <div class="main-page-upper"></div>
+
+    <div class="post-list">
+        <table>
+            <colgroup>
+                <col style="width: 5%">
+                <col style="width: 60%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 5%">
+            </colgroup>
+
+            <th>글번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일자</th>
+            <th>조회수</th>
+
+            <tr th:each="post : ${postsUsingPaging}"><!-- 첫번째 줄 시작 -->
+                <td th:text="${post.id}">1</td>
+                <td><a th:text="${post.title}" href="https://www.naver.com" th:href="@{/post(id=${post.id})}">첫번째글입니다. 이거 클릭한번 해볼래요?</a></td>
+                <td><a th:text="${post.getMember().userId}" href="https://www.naver.com">김태훈</a></td>
+                <td th:text="${post.getRegistrationDate()}">21.10.31</td>
+                <td th:text="${post.getLookUp()}">2</td>
+            </tr><!-- 첫번째 줄 끝 -->
+        </table>
+    </div>
+
+    <div class="paging">
+        <!-- 여기에 링크를 쿼리넣어주면 됨. 이걸로 보내면 -> getmapping에서 해당 번호 보고 알맞은 페이징을 실행. -->
+<!--        임시로 숫자 변경은 없이 기본값으로 박아주고 나중에 리팩토링해서, 숫자 7~11 12~18 이런거도 만들기-->
+        <div><a><<</a></div>
+        <div><a><</a></div>
+        <div><a th:href="@{/?pagingNum=1}">1</a></div>
+        <div><a th:href="@{/?pagingNum=2}">2</a></div>
+        <div><a th:href="@{/?pagingNum=3}">3</a></div>
+        <div><a>4</a></div>
+        <div><a>5</a></div>
+        <div><a>6</a></div>
+        <div><a>></a></div>
+        <div><a>>></a></div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>
