@@ -55,17 +55,17 @@
     <div class="paging">
         <!-- 여기에 링크를 쿼리넣어주면 됨. 이걸로 보내면 -> getmapping에서 해당 번호 보고 알맞은 페이징을 실행. -->
 <!--        임시로 숫자 변경은 없이 기본값으로 박아주고 나중에 리팩토링해서, 숫자 7~11 12~18 이런거도 만들기-->
-        <div><a><<</a></div>
-        <div><a><</a></div>
-        <div><a th:href="@{/?pagingNum=1}">1</a></div>
-        <div><a th:href="@{/?pagingNum=2}">2</a></div>
-        <div><a th:href="@{/?pagingNum=3}">3</a></div>
-        <div><a>4</a></div>
-        <div><a>5</a></div>
-        <div><a>6</a></div>
-        <div><a>></a></div>
-        <div><a>>></a></div>
-
+        <div><a th:href="@{/(pagingNum=1)}"><<</a></div>
+        <div><a th:href="@{/(pagingNum=${pageDTO.getThisPage()-6})}"><</a></div>
+        <div><a th:href="@{/(pagingNum=${pageDTO.getEndPage()-5})}" th:text="${pageDTO.getEndPage()-5}">10</a></div>
+        <div><a th:href="@{/(pagingNum=${pageDTO.getEndPage()-4})}" th:text="${pageDTO.getEndPage()-4}">20</a></div>
+        <div><a th:href="@{/(pagingNum=${pageDTO.getEndPage()-3})}" th:text="${pageDTO.getEndPage()-3}">30</a></div>
+        <div><a th:href="@{/(pagingNum=${pageDTO.getEndPage()-2})}" th:text="${pageDTO.getEndPage()-2}">40</a></div>
+        <div><a th:href="@{/(pagingNum=${pageDTO.getEndPage()-1})}" th:text="${pageDTO.getEndPage()-1}">50</a></div>
+        <div><a th:href="@{/(pagingNum=${pageDTO.getEndPage()})}" th:text="${pageDTO.getEndPage()}">60</a></div>
+        <div><a th:href="@{/(pagingNum=${pageDTO.getThisPage()+6})}">></a></div>
+        <div>>></div><!--구현 안할거. DB 연결해야 해서 성가심. 나중에 추가해주자.-->
+<!--        사실 나중에 이 페이징 구현 부분을 아예 바꿔야함. 어차피 컨트롤러 부분이라 약식으로 만듬.-->
     </div>
 
 </div>
