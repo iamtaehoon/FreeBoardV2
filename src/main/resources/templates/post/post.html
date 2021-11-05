@@ -26,6 +26,7 @@
     <div class="post-read-box">
         <div class="read-post-title">
             <p th:text="${post.title}">이게제목입니다.</p>
+            <p th:text="작성자+' : '+${post.getMember().getUserId()}">작성자</p>
         </div>
         <div class="read-post-attachment">
             다운로드 받을 수 있는 공간.
@@ -40,22 +41,44 @@
             </div>
         </div>
 
-        <div class="contents-box">
-            <div class="content">
-                <div class="content-writer">작성자</div>
-                <div class="content-info">내용</div>
-                <!-- 내용을 클릭하면 대댓글을 달 수 있게. 댓글 다시 설계해야겠는데??? -->
-                <div class="content-write-date">21.11.01</div>
-            </div>
-            <div class="reply">
-                <div class="reply-blank">-></div>
-                <div class="reply-writer">작성자</div>
-                <div class="reply-info">내용</div>
-                <div class="reply-write-date">21.11.01</div>
-            </div>
+        <div class="content-box">
+            <table th:border="1" th:each="comment : ${comments}">
+                <colgroup>
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 70%">
+                    <col style="width: 10%">
+                </colgroup>
+
+                <tr>
+                    <td th:text="${comment.getMember().getUserId()}">작성자</td>
+                    <td>작2</td>
+                    <td th:text="${comment.content}">내용</td>
+                    <td th:text="${comment.getRegistrationDate()}">ㅁㄴㅇ</td>
+                </tr>
+
+            </table>
         </div>
+
+
     </div>
 </div>
 
-
 </body>
+
+
+
+<!--<div class="contents-box">-->
+<!--    <div class="content">-->
+<!--        <div class="content-writer">작성자</div>-->
+<!--        <div class="content-info">내용</div>-->
+<!--        &lt;!&ndash; 내용을 클릭하면 대댓글을 달 수 있게. 댓글 다시 설계해야겠는데??? &ndash;&gt;-->
+<!--        <div class="content-write-date">21.11.01</div>-->
+<!--    </div>-->
+<!--    <div class="reply">-->
+<!--        <div class="reply-blank">-></div>-->
+<!--        <div class="reply-writer">작성자</div>-->
+<!--        <div class="reply-info">내용</div>-->
+<!--        <div class="reply-write-date">21.11.01</div>-->
+<!--    </div>-->
+<!--</div>-->

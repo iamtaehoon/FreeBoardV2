@@ -24,7 +24,9 @@
 <body>
 <div class="header"></div>
 <div class="main-page">
-    <div class="main-page-upper"></div>
+    <div class="main-page-upper">
+        <h1 th:text="${pageDTO.getThisPage()}+ 페이지">1</h1>
+    </div>
 
     <div class="post-list">
         <table>
@@ -44,7 +46,9 @@
 
             <tr th:each="post : ${postsUsingPaging}"><!-- 첫번째 줄 시작 -->
                 <td th:text="${post.id}">1</td>
-                <td><a th:text="${post.title}" href="https://www.naver.com" th:href="@{/post(id=${post.id})}">첫번째글입니다. 이거 클릭한번 해볼래요?</a></td>
+                <td><a th:text="${post.title}" href="https://www.naver.com"
+                       th:href="@{/post(id=${post.id})}">첫번째글입니다. 이거 클릭한번 해볼래요?</a></td>
+                <!--                계정 정보 보는걸 넣으면 됨.-->
                 <td><a th:text="${post.getMember().userId}" href="https://www.naver.com">김태훈</a></td>
                 <td th:text="${post.getRegistrationDate()}">21.10.31</td>
                 <td th:text="${post.getLookUp()}">2</td>

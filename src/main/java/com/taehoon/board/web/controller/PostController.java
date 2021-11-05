@@ -1,5 +1,6 @@
 package com.taehoon.board.web.controller;
 
+import com.taehoon.board.domain.Comment;
 import com.taehoon.board.web.dto.PageDTO;
 import com.taehoon.board.domain.Post;
 import com.taehoon.board.service.PostService;
@@ -19,8 +20,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/")
-    public String postList(Model model, @RequestParam(defaultValue = "1") Integer pagingNum,
-                           @RequestParam(required = false) PageDTO.PagingStatus pagingStatus) {
+    public String postList(Model model, @RequestParam(defaultValue = "1") Integer pagingNum) {
         System.out.println("postList에 들어옴 : pagingNum : " + pagingNum);
 
         if (pagingNum <= 0) {
@@ -39,9 +39,7 @@ public class PostController {
         // 아 이것도 자바스크립트 써가면서 해야되네. 그냥 일단 여기까지만 단순하게 구현.
         PageDTO pageDTO = new PageDTO(pagingNum);
         model.addAttribute("pageDTO",pageDTO);
-//        PagingBtns pagingBtns = new PagingBtns();
-//        model.addAttribute("pagingBtns", pagingBtns);
-
+        //26~40번째 줄까지 메서드로 따로 만들기. 가독성이 좋지 않음.
 
         return "post/postList";
     }
@@ -52,6 +50,10 @@ public class PostController {
         Post post = postService.findPost(postId);
         model.addAttribute("post", post);
         System.out.println("post = " + post);
+
+        List<Comment> comments = post.getComments();
+        model.addAttribute("comments", comments);
+
         return "post/post";
     }
 }
