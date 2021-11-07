@@ -28,12 +28,12 @@ public class MemberService {
         return member.getId();
     }
 
-    public Long login(String userId, String password) {
+    public Member login(String userId, String password) {
         List<Member> memberByUserId = findMemberByUserId(userId);
 
         if (!memberByUserId.isEmpty()) {
             if (password.equals(memberByUserId.get(0).getPassword())) {
-                return memberByUserId.get(0).getId();
+                return memberByUserId.get(0);
             }
         }
         throw new IllegalArgumentException("아이디 또는 비밀번호가 잘못되었습니다");

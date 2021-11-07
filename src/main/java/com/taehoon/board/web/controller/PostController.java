@@ -1,6 +1,8 @@
 package com.taehoon.board.web.controller;
 
 import com.taehoon.board.domain.Comment;
+import com.taehoon.board.domain.Member;
+import com.taehoon.board.web.SessionConst;
 import com.taehoon.board.web.dto.PageDTO;
 import com.taehoon.board.domain.Post;
 import com.taehoon.board.service.PostService;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -20,7 +24,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/")
-    public String postList(Model model, @RequestParam(defaultValue = "1") Integer pagingNum) {
+    public String postList(Model model, @RequestParam(defaultValue = "1") Integer pagingNum, HttpServletRequest request) {
         System.out.println("postList에 들어옴 : pagingNum : " + pagingNum);
 
         if (pagingNum <= 0) {
@@ -41,7 +45,18 @@ public class PostController {
         model.addAttribute("pageDTO",pageDTO);
         //26~40번째 줄까지 메서드로 따로 만들기. 가독성이 좋지 않음.
 
-        return "post/postList";
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "post/postList";
+        }
+
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (loginMember == null) {
+            return "post/postList";
+        }
+
+        model.addAttribute("member", loginMember);
+        return "post/postListAfterLogin";
     }
 
     @GetMapping("/post")

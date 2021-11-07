@@ -1,4 +1,4 @@
-
+<!--프래그먼트로 만들면 더욱 쉬울텐데, 지금은 그냥 이렇게.-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -10,9 +10,9 @@
     <link href="../../static/css/style.css" rel="stylesheet">
 
     <!-- 인텔리제이 -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/member.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/member.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
     <style>
         .field-error {
             border-color: #dc3545;
@@ -23,13 +23,14 @@
 </head>
 <body>
 <div class="header">
-    <div>
-
+    <div class="login-info">
+        <a href="https://www.naver.com" th:href="@{/logout}">로그아웃</a>
     </div>
 </div>
 <div class="main-page">
     <div class="main-page-upper">
         <h1 th:text="${pageDTO.getThisPage()}+ 페이지">1</h1>
+        <p th:text="사용자 + ${member.getUserId()}"></p>
     </div>
 
     <div class="post-list">

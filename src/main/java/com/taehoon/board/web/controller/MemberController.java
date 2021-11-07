@@ -2,6 +2,7 @@ package com.taehoon.board.web.controller;
 
 import com.taehoon.board.domain.Member;
 import com.taehoon.board.service.MemberService;
+import com.taehoon.board.web.SessionConst;
 import com.taehoon.board.web.dto.member.LoginDTO;
 import com.taehoon.board.web.dto.member.MemberCreateDto;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -40,41 +44,40 @@ public class MemberController {
     public String loginForm(Model model) {
         LoginDTO loginDTO = new LoginDTO();
         model.addAttribute("loginDTO", loginDTO);
-        System.out.println("getget");
         return "member/loginForm";
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute @Valid LoginDTO loginDTO, BindingResult result) {
+    public String login(@ModelAttribute @Valid LoginDTO loginDTO, BindingResult result, HttpServletRequest request) {
 
         if (result.hasErrors()) {
             return "member/loginForm";
         }
 
-        //로그인 실행 이상
         try {
             System.out.println("loginDTO = " + loginDTO);
-            Long loginId = memberService.login(loginDTO.getUserId(), loginDTO.getPassword());
-        } catch (IllegalArgumentException e) {
+            Member loginMember = memberService.login(loginDTO.getUserId(), loginDTO.getPassword());
+
+            HttpSession session = request.getSession();
+
+            session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+        } catch (IllegalArgumentException e) {        //로그인 실행 이상
             System.out.println("e.getMessage() = " + e.getMessage());
             result.reject(e.getMessage());
             return "member/loginForm";
         }
 
+
         return "redirect:/";
     }
 
-//    @GetMapping("check-id-duplicate")
-//    public String check_id_duplicate(@RequestParam String userId, BindingResult bindingResult) {
-//
-//        List<Member> memberByUserId = memberService.findMemberByUserId(userId);
-//        if (memberByUserId.isEmpty()) {
-//            //올바른로직
-//            return "redirect:/join";
-//        }
-//        //틀린 로직
-//        bindingResult.reject("","아이디가 중복되었습니다.");
-//        return "redirect/join";
-//
-//    }
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/";
+    }
 }
