@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
 
     <!--  바닐라   -->
-    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../../static/css/member.css" rel="stylesheet" />
-    <link href="../../static/css/style.css" rel="stylesheet">
+<!--    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" />-->
+<!--    <link href="../../static/css/member.css" rel="stylesheet" />-->
+<!--    <link href="../../static/css/style.css" rel="stylesheet">-->
 
     <!-- 인텔리제이 -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/member.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/member.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
     <style>
         .field-error {
             border-color: #dc3545;
@@ -22,7 +22,11 @@
     <title>Title</title>
 </head>
 <body>
-<div class="header"></div>
+<div class="header">
+    <div class="login-info">
+        <a href="https://www.naver.com" th:href="@{/login}">로그인</a>
+    </div>
+</div>
 <div class="main-page">
     <div class="main-page-upper">
         <h1 th:text="${pageDTO.getThisPage()}+ 페이지">1</h1>

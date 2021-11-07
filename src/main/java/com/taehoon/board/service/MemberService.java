@@ -28,6 +28,17 @@ public class MemberService {
         return member.getId();
     }
 
+    public Long login(String userId, String password) {
+        List<Member> memberByUserId = findMemberByUserId(userId);
+
+        if (!memberByUserId.isEmpty()) {
+            if (password.equals(memberByUserId.get(0).getPassword())) {
+                return memberByUserId.get(0).getId();
+            }
+        }
+        throw new IllegalArgumentException("아이디 또는 비밀번호가 잘못되었습니다");
+    }
+
     /**
      * 서버에서 사용하는 id로 회원 찾기
      * @param memberId (서버에서 사용하는 값. uuid를 사용해서 만들어야함.)

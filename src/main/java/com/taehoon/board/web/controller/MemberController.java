@@ -2,6 +2,7 @@ package com.taehoon.board.web.controller;
 
 import com.taehoon.board.domain.Member;
 import com.taehoon.board.service.MemberService;
+import com.taehoon.board.web.dto.member.LoginDTO;
 import com.taehoon.board.web.dto.member.MemberCreateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,34 @@ public class MemberController {
         }
 
         return "redirect:/join";
+    }
+
+    @GetMapping("/login")
+    public String loginForm(Model model) {
+        LoginDTO loginDTO = new LoginDTO();
+        model.addAttribute("loginDTO", loginDTO);
+        System.out.println("getget");
+        return "member/loginForm";
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute @Valid LoginDTO loginDTO, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "member/loginForm";
+        }
+
+        //로그인 실행 이상
+        try {
+            System.out.println("loginDTO = " + loginDTO);
+            Long loginId = memberService.login(loginDTO.getUserId(), loginDTO.getPassword());
+        } catch (IllegalArgumentException e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
+            result.reject(e.getMessage());
+            return "member/loginForm";
+        }
+
+        return "redirect:/";
     }
 
 //    @GetMapping("check-id-duplicate")

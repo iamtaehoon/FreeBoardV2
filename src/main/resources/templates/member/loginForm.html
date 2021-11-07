@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <!--  바닐라   -->
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../static/css/member.css" rel="stylesheet" />
+    <link href="../../static/css/style.css" rel="stylesheet" />
+
+    <!-- 인텔리제이 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/member.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+    <title>Title</title>
+</head>
+
+<body>
+<div class="login-box-outer">
+    <div class="login-box">
+        <form th:action th:object="${loginDTO}" method="post" class="login-box-top">
+            <div>
+                <div>
+                    <span>ID</span>
+                    <input type="text" th:field = "*{userId}">
+                    <div class="field-error" th:errors="*{userId}">아이디를 입력해주세요</div>
+                </div>
+                <div>
+                    <span>PW</span>
+                    <input type="password" th:field = "*{password}">
+                    <div class="field-error" th:errors="*{password}">비밀번호를 입력해주세요</div>
+                </div>
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p class="field-error">아이디 또는 비밀번호가 올바르지 않습니다.</p>
+<!--                    여기 messages파일 만들어서 에러 처리 해야함. 일단 보이게만. -->
+                </div>
+            </div>
+            <button type="submit" value="클릭">클릭</button>
+        </form>
+
+        <div class="login-box-bottom">
+            <a href="https://www.naver.com">아이디/비밀번호 찾기</a>
+            <span></span>
+            <a th:href="@{/join}" href="https://www.naver.com">회원가입</a>
+        </div>
+    </div>
+</div>
+
+
+</body>
