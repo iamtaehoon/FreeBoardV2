@@ -2,19 +2,23 @@ package com.taehoon.board.web.controller;
 
 import com.taehoon.board.domain.Comment;
 import com.taehoon.board.domain.Member;
+import com.taehoon.board.service.CommentService;
 import com.taehoon.board.web.SessionConst;
 import com.taehoon.board.web.dto.PageDTO;
 import com.taehoon.board.domain.Post;
 import com.taehoon.board.service.PostService;
+import com.taehoon.board.web.dto.PostCreateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 @Controller
@@ -22,6 +26,8 @@ import java.util.List;
 @RequestMapping
 public class PostController {
     private final PostService postService;
+
+    private final CommentService commentService;
 
     @GetMapping("/")
     public String postList(Model model, @RequestParam(defaultValue = "1") Integer pagingNum, HttpServletRequest request) {
@@ -50,7 +56,7 @@ public class PostController {
             return "post/postList";
         }
 
-        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER); // 회원을 세션에서 찾아봄.
         if (loginMember == null) {
             return "post/postList";
         }
@@ -59,8 +65,9 @@ public class PostController {
         return "post/postListAfterLogin";
     }
 
-    @GetMapping("/post")
-    public String onePost(Model model, @RequestParam("id") Long postId) {
+    @GetMapping("/post") // post-> 로그인 한 유저 : 댓글 작성 가능 / 로그인 안한 유저 : 지금 만든 기능만
+    // 본인인 경우 -> 글 수정 가능. (이건 본인임을 인증하면 되지 여기서)
+    public String onePost(Model model, @RequestParam("id") Long postId, HttpServletRequest request) {
         System.out.println("postId = " + postId);
         Post post = postService.findPost(postId);
         model.addAttribute("post", post);
@@ -69,6 +76,42 @@ public class PostController {
         List<Comment> comments = post.getComments();
         model.addAttribute("comments", comments);
 
-        return "post/post";
+
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "post/post";
+        }
+
+        //로그인이 되어있을 경우
+        return "post/postAfterLogin";
+    }
+
+    @PostMapping("/comment") //별개의 컨트롤러를 만들어야 하나 싶기도 한데, 그냥 여기다가 만들기 일단.
+    public String comment(@RequestParam String content, @RequestParam Long postId,
+                          @RequestParam Integer commentCount, HttpServletRequest request) {
+        Post post = postService.findPost(postId);
+        // postId를 그대로 받는게 더 나은 방법인듯? 근데 멤버객체도 그대로 쓰는거보면 Post객체 가져와서 이거처럼 쓰는게 맞는건가?
+
+        System.out.println(content+ Long.toString(postId)+ Integer.toString(commentCount));
+        //들어온거 확인! (11/8일 requestParam으로 들어온거 확인.)
+        // 내일 보충할 거. 현재 댓글 서비스 안되는거 고치기.
+
+
+        HttpSession session = request.getSession();
+        Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        Comment comment = new Comment(content,commentCount,0,0,member,post);
+        commentService.registerComment(comment);
+
+        return "redirect:/post?postId=" + postId;
+    }
+
+
+    @GetMapping("/write") //로그인한 사람만 접근이 가능하게.
+    public String postWriteForm(Model model) {
+        PostCreateDto postCreateDto = new PostCreateDto();
+        model.addAttribute("postCreateDto", postCreateDto);
+
+        return "write/writeForm";
     }
 }

@@ -34,6 +34,23 @@
     background: cadetblue;
     width: 100%;
     height: 60px;
+    display: flex;
+}
+
+.main-page-upper > .main-page-this-page {
+    flex: 2;
+}
+
+.main-page-upper > .main-page-user-info {
+    flex: 8;
+}
+
+.main-page-upper > .main-page-write-btn {
+    flex: 1;
+}
+
+.main-page-upper > span > * {
+    display: inline;
 }
 
 .post-list {
@@ -268,4 +285,18 @@
 }
 .reply > .reply-write-date {
     flex: 2;
+}
+
+
+.content-input-box > form{
+    display: flex;
+    width: 100%;
+}
+
+.content-input-box > form > input {
+    width : 600px;
+}
+.content-input-box > form > button {
+    width: 100px;
+    height: 30px;
 }

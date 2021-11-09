@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +17,7 @@ public class Member {
     protected Member() {
     }
 
-    public Member(String userId, String password, String email, String phoneNum, Gender gender, LocalDateTime birth) {
+    public Member(String userId, String password, String email, String phoneNum, Gender gender, LocalDate birth) {
         this.userId = userId;
         this.password = password;
         this.email = email;
@@ -41,7 +42,7 @@ public class Member {
 
 //    @Temporal(TemporalType.DATE) => 로컬데이트타임을 사용하면 필요 없음.
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime birth; //생년월일
+    private LocalDate birth; //생년월일
 
 
     @OneToMany(mappedBy = "member")

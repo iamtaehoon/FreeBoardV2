@@ -1,5 +1,6 @@
 package com.taehoon.board.web.controller;
 
+import com.taehoon.board.domain.Gender;
 import com.taehoon.board.domain.Member;
 import com.taehoon.board.service.MemberService;
 import com.taehoon.board.web.SessionConst;
@@ -15,6 +16,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -36,8 +40,24 @@ public class MemberController {
         if (result.hasErrors()) {
             return "member/joinForm";
         }
+        String genderString = memberCreateDto.getGender();
+        Gender gender;
+        if (genderString.equals("man")) {
+            gender = Gender.MAN;
+        } else {
+            gender = Gender.WOMAN;
+        }
 
-        return "redirect:/join";
+        String birth = memberCreateDto.getBirth();
+        System.out.println("birth = " + birth);
+        LocalDate date = LocalDate.parse(birth, DateTimeFormatter.ISO_DATE);
+
+        Member member = new Member(memberCreateDto.getUserId(), memberCreateDto.getPassword(), memberCreateDto.getEmail(),
+                memberCreateDto.getPhoneNum(), gender, date);
+
+        memberService.joinMember(member);
+
+        return "redirect:/";
     }
 
     @GetMapping("/login")

@@ -7,12 +7,11 @@
     <!--  바닐라   -->
     <link href="../../static/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../../static/css/member.css" rel="stylesheet" />
-    <link href="../../static/css/style.css" rel="stylesheet">
 
     <!-- 인텔리제이 -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/member.css}" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="../../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
     <style>
         .field-error {
             border-color: #dc3545;
@@ -29,8 +28,9 @@
 </div>
 <div class="main-page">
     <div class="main-page-upper">
-        <h1 th:text="${pageDTO.getThisPage()}+ 페이지">1</h1>
-        <p th:text="사용자 + ${member.getUserId()}"></p>
+        <span class="main-page-this-page"><h1 th:text="${pageDTO.getThisPage()}+ 페이지">1페이지</h1></span>
+        <span class="main-page-user-info"><p th:text="사용자 + ${member.getUserId()}">21312</p></span>
+        <span class="main-page-write-btn"><a href="https://www.naver.com" th:href="@{/write}">글쓰기</a></span>
     </div>
 
     <div class="post-list">
