@@ -1,6 +1,7 @@
 package com.taehoon.board.service;
 
 import com.taehoon.board.domain.Post;
+import com.taehoon.board.repository.MemberRepository;
 import com.taehoon.board.repository.PostRepository;
 import com.taehoon.board.web.dto.PostModifyDto;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +17,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final MemberService memberService;
 
     //게시물 등록
-    public Long registerPost(Post post) { //테스트 때문에라도 반환을 해줘야함.
+    public Long registerPost(Post post, Long memberId) { //테스트 때문에라도 반환을 해줘야함.
 //        Post post = postCreateDto.toEntity();//dto단계에서 valid 체크는 다 해줌. 그냥 저장만 하면 됨.
 //        위 작업은 컨트롤러 단계에서 처리해줄거임.
+        post.setMember(memberService.findMemberById(memberId));
         postRepository.save(post);
         return post.getId();
     }

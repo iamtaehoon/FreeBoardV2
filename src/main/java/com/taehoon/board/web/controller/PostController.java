@@ -3,6 +3,7 @@ package com.taehoon.board.web.controller;
 import com.taehoon.board.domain.Comment;
 import com.taehoon.board.domain.Member;
 import com.taehoon.board.service.CommentService;
+import com.taehoon.board.service.MemberService;
 import com.taehoon.board.web.SessionConst;
 import com.taehoon.board.web.dto.PageDTO;
 import com.taehoon.board.domain.Post;
@@ -11,13 +12,12 @@ import com.taehoon.board.web.dto.PostCreateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.net.http.HttpRequest;
 import java.util.List;
 
@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping
 public class PostController {
     private final PostService postService;
-
+    private final MemberService memberService;
     private final CommentService commentService;
 
     @GetMapping("/")
@@ -48,7 +48,7 @@ public class PostController {
         //인터넷을 찾아보자. 직접 구현하려니 막히는 부분이 있음.
         // 아 이것도 자바스크립트 써가면서 해야되네. 그냥 일단 여기까지만 단순하게 구현.
         PageDTO pageDTO = new PageDTO(pagingNum);
-        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("pageDTO", pageDTO);
         //26~40번째 줄까지 메서드로 따로 만들기. 가독성이 좋지 않음.
 
         HttpSession session = request.getSession(false);
@@ -90,7 +90,7 @@ public class PostController {
     public String comment(@RequestParam String content, @RequestParam Long postId,
                           @RequestParam Integer commentCount, HttpServletRequest request) {
 
-        System.out.println(content+ Long.toString(postId)+ Integer.toString(commentCount));
+        System.out.println(content + Long.toString(postId) + Integer.toString(commentCount));
         // 내일 보충할 거. 현재 댓글 서비스 안되는거 고치기. => 내가 db에 임의로 넣어준 값이 id 무결성을 해치고 있었음. 해결
 
         Post post = postService.findPost(postId);
@@ -99,7 +99,7 @@ public class PostController {
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
-        Comment comment = new Comment(content,commentCount,0,0,member,post);
+        Comment comment = new Comment(content, commentCount, 0, 0, member, post);
         commentService.registerComment(comment);
 
         return "redirect:/post?id=" + postId;
@@ -112,5 +112,28 @@ public class PostController {
         model.addAttribute("postCreateDto", postCreateDto);
 
         return "write/writeForm";
+    }
+
+    @PostMapping("/write")
+    public String post(@Valid @ModelAttribute PostCreateDto postCreateDto, BindingResult result, HttpServletRequest request) {
+        if (result.hasErrors()) {
+            System.out.println("에러가 있음. 어디에서 있음? "+postCreateDto.getTitle()+" 내용 : "+postCreateDto.getContent());
+            return "write/writeForm";
+        }
+
+        HttpSession session = request.getSession();
+        System.out.println("session = " + session);
+        Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER); // 여기서 트랜잭션이 안됐다고 그러는거같은데?
+        System.out.println("member = " + member.getUserId());
+
+        Post post = new Post(postCreateDto.getTitle(),postCreateDto.getContent());
+        System.out.println("post.getTitle() = " + post.getTitle());
+
+        Long postId = postService.registerPost(post,member.getId());
+        // member를 트랜잭션 단위가 맞는 registerPost에서 불러오니 문제가 해결!!
+
+        return "redirect:/post?id=" + postId;
+
+
     }
 }

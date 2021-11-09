@@ -25,18 +25,22 @@
 <body>
 <div class="post-register-box-outer">
     <div class="post-register-box">
-        <form>
+        <form th:action th:object="${postCreateDto}" method="post">
             <div class="post-title">
-                <input type="text" placeholder="제목을 입력하세요">
+                <input type="text" placeholder="제목을 입력하세요" th:field="*{title}">
+                <div class="field-error" th:errors="*{title}">제목을 입력하세요.</div>
+
             </div>
             <div class="post-attachment">
                 <input type="file" multiple="multiple">
             </div>
             <div class="post-content">
-                <input type="text" placeholder="내용을 입력하세요">
+                <input type="text" placeholder="내용을 입력하세요" th:field="*{content}">
+                <div class="field-error" th:errors="*{content}">내용을 입력하세요.</div>
+
             </div>
             <div class="post-button-bar">
-                <button>등록</button>
+                <button type="submit">등록</button>
                 <button>취소</button>
             </div>
         </form>

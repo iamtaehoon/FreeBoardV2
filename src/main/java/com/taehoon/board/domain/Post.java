@@ -46,12 +46,11 @@ public class Post {//게시물
     protected Post() {}
 
     //Post 생성 메서드.
-    public Post(String title, String content, Member member) { // Member member도 들어가야 하지 않나? -> oo
+    public Post(String title, String content) { // Member member도 들어가야 하지 않나? -> oo
         //id 자동 만들어줌.
         this.title = title;
         this.content = content;
         this.lookUp = 0;
-        setMember(member);
         //registrationDate는 자동으로 만들어줌. -> 안만들어주는데 이거 직접 받으면 되나?
         //commnet,files도 자동으로 만들어주겠지?
     }
