@@ -31,8 +31,8 @@ public class Member {
     private Long id;
 
     private String userId;
-    private String password; // 여기서 password는 그대로 헤더를 타고 들어오는게아니라. 클라에서 어떤 로직에 의해 변경해주고, 그걸 저장해줄거.
-    //잘 모르겠는데 이거 리팩토링 할때쯔음 해서 패스워드 보안 관련 업그레이드 해주자. 일단 그냥 만들기
+    private String password; // 여기서 password는 그대로 헤더를 타고 들어오는게아니라. 클라에서 어떤 로직에 의해 변경해주고, 그걸 저장해줄거. -> 클라 차원에서바뀌게 못하나? 지금은 컨트롤러 단위에서 바꿔줌.
+
 
     private String email;
     private String phoneNum;
@@ -51,5 +51,8 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
 
+    public void encodePassword(String encodePassword) { // 이거 저기 맨 처음에 객체를 만들 때 도메인 내부에서 encode 로직을 실행시켜도 되는거 아냐?
 
+        this.password = encodePassword;
+    }
 }

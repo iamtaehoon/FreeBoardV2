@@ -89,13 +89,12 @@ public class PostController {
     @PostMapping("/comment") //별개의 컨트롤러를 만들어야 하나 싶기도 한데, 그냥 여기다가 만들기 일단.
     public String comment(@RequestParam String content, @RequestParam Long postId,
                           @RequestParam Integer commentCount, HttpServletRequest request) {
-        Post post = postService.findPost(postId);
-        // postId를 그대로 받는게 더 나은 방법인듯? 근데 멤버객체도 그대로 쓰는거보면 Post객체 가져와서 이거처럼 쓰는게 맞는건가?
 
         System.out.println(content+ Long.toString(postId)+ Integer.toString(commentCount));
-        //들어온거 확인! (11/8일 requestParam으로 들어온거 확인.)
-        // 내일 보충할 거. 현재 댓글 서비스 안되는거 고치기.
+        // 내일 보충할 거. 현재 댓글 서비스 안되는거 고치기. => 내가 db에 임의로 넣어준 값이 id 무결성을 해치고 있었음. 해결
 
+        Post post = postService.findPost(postId);
+        // postId를 그대로 받는게 더 나은 방법인듯? 근데 멤버객체도 그대로 쓰는거보면 Post객체 가져와서 이거처럼 쓰는게 맞는건가?
 
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
@@ -103,7 +102,7 @@ public class PostController {
         Comment comment = new Comment(content,commentCount,0,0,member,post);
         commentService.registerComment(comment);
 
-        return "redirect:/post?postId=" + postId;
+        return "redirect:/post?id=" + postId;
     }
 
 

@@ -3,6 +3,7 @@ package com.taehoon.board.service;
 import com.taehoon.board.domain.Member;
 import com.taehoon.board.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 회원가입
@@ -22,6 +24,8 @@ public class MemberService {
      * 이상 없으면 repository에 저장.
      */
     public Long joinMember(Member member) {
+        String encodePassword = passwordEncoder.encode(member.getPassword());
+        member.encodePassword(encodePassword);
 
         checkMemberDuplication(member); // 중복되면 illegal예외 터침.
         memberRepository.save(member);
@@ -32,7 +36,8 @@ public class MemberService {
         List<Member> memberByUserId = findMemberByUserId(userId);
 
         if (!memberByUserId.isEmpty()) {
-            if (password.equals(memberByUserId.get(0).getPassword())) {
+            boolean check = passwordEncoder.matches(password,memberByUserId.get(0).getPassword());
+            if (check) {
                 return memberByUserId.get(0);
             }
         }
