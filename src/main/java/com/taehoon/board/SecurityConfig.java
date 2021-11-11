@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //암호화 위해서 사용할 빈 컨테이너
 @Configuration
 @EnableWebSecurity
-public class JavaConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {

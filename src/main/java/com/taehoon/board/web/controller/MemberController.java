@@ -57,7 +57,7 @@ public class MemberController {
 
         memberService.joinMember(member);
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
@@ -68,7 +68,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute @Valid LoginDTO loginDTO, BindingResult result, HttpServletRequest request) {
+    public String login(@ModelAttribute @Valid LoginDTO loginDTO, BindingResult result, HttpServletRequest request, @RequestParam String redirectURL) {
 
         if (result.hasErrors()) {
             return "member/loginForm";
@@ -89,10 +89,10 @@ public class MemberController {
         }
 
 
-        return "redirect:/";
+        return "redirect:"+redirectURL;
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/log-out")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
